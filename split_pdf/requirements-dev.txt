@@ -1,0 +1,4 @@
+pdf2image
+numpy
+opencv-python
+cli_command_parser
