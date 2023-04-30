@@ -27,8 +27,7 @@ class Image_Creater(Command, description='Simple greeting example'):
 
     def save_tarot_cards(self, page: int):
         # Convert the image to grayscale
-        origin_image = np.array(self.images[page])
-        image = np.copy(origin_image)
+        image = np.array(self.images[page])
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         # Threshold the image to separate the black frames
         ret, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
@@ -39,11 +38,11 @@ class Image_Creater(Command, description='Simple greeting example'):
             # Find the bounding box of the contour
             x, y, w, h = cv2.boundingRect(contour)
             # Crop the image to the bounding box
-            crop = origin_image[y:y+h, x:x+w]
+            crop = image[y:y+h, x:x+w]
             # TODO: Skip if image is pure black and white (not a tarot card, it is a charactor image)
             # Save the cropped image as a separate file
             # TODO: Name it with the real card name
-            cv2.imwrite(f'{OUTPUT_PATH}page_{page}_frame_{i}.jpg', crop)
+            Image.fromarray(crop).save(f'{OUTPUT_PATH}page_{page}_frame_{i}.jpg')
 
 if __name__ == '__main__':
     Image_Creater.parse_and_run()
